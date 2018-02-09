@@ -1,0 +1,35 @@
+Assuming golang is installed, and project is put in gopath directory structure
+ - /src/github.com/put_project_here (yencrypt)
+
+Install
+
+1. Install postgres service and make sure it is running on machine.
+2. Add user to postgres;
+    username: postgres
+    password: postgres
+    (If you get an authentication error connecting to postgres, this is probably needed)
+3. Run: go get github.com/lib/pq. This installs the postgres lib/driver
+4. Run: 'go build' in yencrypt_server folder to generate binary in that folder
+5. Run: 'go build' in yencrypt_client folder to generate binary in that folder
+
+Run
+1. Run server called yencrypt_server: yencrypt_server <port>
+    eg: ./yencrypt_server 54321
+1. Run client called yencrypt_client:
+    - yencrypt_client <port> <encrpyt> <id> <absoluteFilePathToPlaintext> (Create a file somewhere on disk and put some plaintext you want to encrypt inside.)
+    eg. ./yencrypt_client 54321 encrypt someId C:\Folder1\plaintext.txt (lets say its content is; "HelloWorld")
+
+    Output
+    Key: abcdefg (some base64 string)
+
+    - yencrypt_client <port> <decrypt> <id> <key>
+    eg. ./yencrypt_client 54321 decrypt someId abcdefg
+
+    Output
+    Plaintext: HelloWorld
+
+
+Some notes
+- The database name is 'yotest', hopefully it does not clash. You can change it in y_db.go if it does.
+- We are connecting to the database on default port 5432, and default username (postgres) with password (postgres)
+
